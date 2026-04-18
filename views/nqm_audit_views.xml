@@ -84,7 +84,7 @@
                         </page>
 
                         <page string="Constats" name="findings">
-                            <field name="finding_ids">
+                            <field name="finding_ids" mode="list">
                                 <list editable="bottom"
                                       decoration-danger="severity in ('critical', 'high')"
                                       decoration-warning="severity == 'medium'"

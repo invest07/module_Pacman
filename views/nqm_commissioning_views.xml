@@ -76,7 +76,7 @@
                         </page>
 
                         <page string="Tests de réception" name="tests">
-                            <field name="test_ids">
+                            <field name="test_ids" mode="list">
                                 <list editable="bottom"
                                       decoration-success="result == 'pass'"
                                       decoration-danger="result == 'fail'"
@@ -138,7 +138,7 @@
                                    domain="[('project_id', '=', project_id)]"
                                    widget="many2many_tags"/>
                             <separator string="Documents remis au client"/>
-                            <field name="document_ids"
+                            <field name="document_ids" mode="list"
                                    domain="[('project_id', '=', project_id)]">
                                 <list>
                                     <field name="ref"/>

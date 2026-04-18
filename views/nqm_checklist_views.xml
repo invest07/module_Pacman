@@ -36,7 +36,7 @@
                     <field name="notes" placeholder="Contexte ou notes supplémentaires..."/>
 
                     <separator string="Points de contrôle"/>
-                    <field name="item_ids">
+                    <field name="item_ids" mode="list">
                         <list editable="bottom" decoration-success="state == 'done'"
                               decoration-danger="state == 'failed'"
                               decoration-muted="state == 'na'">

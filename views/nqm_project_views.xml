@@ -86,7 +86,7 @@
                                    placeholder="Ex:&#10;VLAN 10 - Management: 192.168.10.0/28&#10;VLAN 20 - Data: 192.168.20.0/24&#10;VLAN 30 - Guest: 192.168.30.0/25"/>
                         </page>
                         <page string="Équipements" name="equipment">
-                            <field name="equipment_ids">
+                            <field name="equipment_ids" mode="list">
                                 <list editable="bottom">
                                     <field name="equipment_type"/>
                                     <field name="name"/>
