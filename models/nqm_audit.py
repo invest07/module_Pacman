@@ -18,13 +18,13 @@ class NqmAudit(models.Model):
     )
 
     audit_type = fields.Selection([
-        ('network', '🌐 Audit réseau (architecture, flux, VLAN)'),
-        ('security', '🔒 Audit de sécurité (hardening, vulnérabilités)'),
-        ('compliance', '📜 Audit de conformité (ISO27001, RGPD, NIS2)'),
-        ('pre_deploy', '🔍 Audit pré-déploiement'),
-        ('post_deploy', '✅ Audit post-déploiement'),
-        ('pentest_light', '⚠️ Revue de sécurité / Pentest léger'),
-        ('soc_readiness', '🏢 Audit SOC Readiness'),
+        ('network', 'Audit réseau (architecture, flux, VLAN)'),
+        ('security', 'Audit de sécurité (hardening, vulnérabilités)'),
+        ('compliance', 'Audit de conformité (ISO27001, RGPD, NIS2)'),
+        ('pre_deploy', 'Audit pré-déploiement'),
+        ('post_deploy', 'Audit post-déploiement'),
+        ('pentest_light', 'Revue de sécurité / Pentest léger'),
+        ('soc_readiness', 'Audit SOC Readiness'),
     ], string='Type d\'audit', required=True, default='network', tracking=True)
 
     state = fields.Selection([
@@ -110,15 +110,15 @@ class NqmAudit(models.Model):
     def _compute_score_label(self):
         for rec in self:
             if rec.score >= 90:
-                rec.score_label = '🟢 Excellent'
+                rec.score_label = 'Excellent'
             elif rec.score >= 75:
-                rec.score_label = '🟡 Bon'
+                rec.score_label = 'Bon'
             elif rec.score >= 50:
-                rec.score_label = '🟠 Moyen'
+                rec.score_label = 'Moyen'
             elif rec.score >= 25:
-                rec.score_label = '🔴 Faible'
+                rec.score_label = 'Faible'
             else:
-                rec.score_label = '🚨 Critique'
+                rec.score_label = 'Critique'
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -152,11 +152,11 @@ class NqmAuditFinding(models.Model):
     ref = fields.Char(string='Ref', compute='_compute_ref')
 
     severity = fields.Selection([
-        ('critical', '🚨 Critique'),
-        ('high', '🔴 Élevé'),
-        ('medium', '🟠 Moyen'),
-        ('low', '🟡 Faible'),
-        ('info', '🔵 Informatif'),
+        ('critical', 'Critique'),
+        ('high', 'Élevé'),
+        ('medium', 'Moyen'),
+        ('low', 'Faible'),
+        ('info', 'Informatif'),
     ], string='Criticité', required=True, default='medium')
 
     category = fields.Selection([

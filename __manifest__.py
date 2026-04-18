@@ -42,5 +42,6 @@ Fonctionnalités :
     'installable': True,
     'application': True,
     'auto_install': False,
+    'module_type': 'official',
     'images': [],
 }

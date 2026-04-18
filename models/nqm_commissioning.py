@@ -74,10 +74,10 @@ class NqmCommissioning(models.Model):
 
     # ─── Résultat global ───────────────────────────────────────────────────────
     overall_result = fields.Selection([
-        ('pass', '✅ Réussi - Mise en service validée'),
-        ('pass_with_reserves', '⚠️ Réussi avec réserves'),
-        ('fail', '❌ Échoué - Corrections requises'),
-        ('pending', '⏳ En attente de résolution'),
+        ('pass', 'Réussi - Mise en service validée'),
+        ('pass_with_reserves', 'Réussi avec réserves'),
+        ('fail', 'Échoué - Corrections requises'),
+        ('pending', 'En attente de résolution'),
     ], string='Résultat global', tracking=True)
 
     reserves = fields.Html(
@@ -174,18 +174,18 @@ class NqmCommissioningTest(models.Model):
         help='Comment exécuter ce test ?'
     )
     test_category = fields.Selection([
-        ('connectivity', '🌐 Connectivité (ping, traceroute)'),
-        ('vlan_isolation', '🔀 Isolation VLAN'),
-        ('routing', '🔀 Routage inter-VLAN / inter-sites'),
-        ('internet', '🌍 Accès Internet'),
-        ('dns', '📡 Résolution DNS'),
-        ('dhcp', '📋 Attribution DHCP'),
-        ('vpn', '🔐 Tunnel VPN'),
-        ('firewall_rules', '🔥 Règles Firewall / ACL'),
-        ('authentication', '🔑 Authentification (802.1X, etc.)'),
-        ('failover', '♻️ Bascule / Haute disponibilité'),
-        ('performance', '📊 Performance / Bande passante'),
-        ('other', '📋 Autre'),
+        ('connectivity', 'Connectivité (ping, traceroute)'),
+        ('vlan_isolation', 'Isolation VLAN'),
+        ('routing', 'Routage inter-VLAN / inter-sites'),
+        ('internet', 'Accès Internet'),
+        ('dns', 'Résolution DNS'),
+        ('dhcp', 'Attribution DHCP'),
+        ('vpn', 'Tunnel VPN'),
+        ('firewall_rules', 'Règles Firewall / ACL'),
+        ('authentication', 'Authentification (802.1X, etc.)'),
+        ('failover', 'Bascule / Haute disponibilité'),
+        ('performance', 'Performance / Bande passante'),
+        ('other', 'Autre'),
     ], string='Catégorie', default='connectivity')
 
     expected_result = fields.Text(
@@ -197,10 +197,10 @@ class NqmCommissioningTest(models.Model):
         help='Ce qui a réellement été observé lors du test'
     )
     result = fields.Selection([
-        ('pass', '✅ Réussi'),
-        ('fail', '❌ Échoué'),
+        ('pass', 'Réussi'),
+        ('fail', 'Échoué'),
         ('na', 'N/A'),
-        ('pending', '⏳ À tester'),
+        ('pending', 'À tester'),
     ], string='Résultat', default='pending')
 
     is_critical = fields.Boolean(

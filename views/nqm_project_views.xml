@@ -147,28 +147,22 @@
                 <field name="priority"/>
                 <field name="date_end"/>
                 <templates>
-                    <t t-name="card" class="flex-row">
-                        <div class="oe_kanban_content">
-                            <div class="o_kanban_record_title">
+                    <t t-name="card">
+                        <div class="d-flex flex-column gap-2 p-2">
+                            <div class="d-flex align-items-center gap-1">
                                 <field name="priority" widget="priority"/>
                                 <strong><field name="name"/></strong>
                             </div>
-                            <div><field name="partner_id"/></div>
-                            <div class="mt-1">
+                            <div class="text-muted small"><field name="partner_id"/></div>
+                            <div>
                                 <span class="badge text-bg-secondary">
                                     <field name="project_type"/>
                                 </span>
                             </div>
-                            <div class="mt-1">
-                                <field name="completion_rate" widget="progressbar"/>
-                            </div>
-                            <div class="o_kanban_record_bottom mt-1">
-                                <div class="oe_kanban_bottom_left">
-                                    <field name="date_end"/>
-                                </div>
-                                <div class="oe_kanban_bottom_right">
-                                    <field name="user_id" widget="many2one_avatar_user"/>
-                                </div>
+                            <field name="completion_rate" widget="progressbar"/>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted"><field name="date_end"/></small>
+                                <field name="user_id" widget="many2one_avatar_user"/>
                             </div>
                         </div>
                     </t>

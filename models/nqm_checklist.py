@@ -79,21 +79,21 @@ class NqmChecklistItem(models.Model):
     name = fields.Char(string='Point de contrôle', required=True)
     description = fields.Text(string='Description / Critère de validation')
     category = fields.Selection([
-        ('physical', '🔌 Physique / Câblage'),
-        ('ip', '🌐 Adressage IP / VLAN'),
-        ('routing', '🔀 Routage'),
-        ('security', '🔒 Sécurité / Hardening'),
-        ('test', '✅ Test de connectivité'),
-        ('doc', '📄 Documentation'),
-        ('handover', '🤝 Remise client'),
-        ('other', '📋 Autre'),
+        ('physical', 'Physique / Câblage'),
+        ('ip', 'Adressage IP / VLAN'),
+        ('routing', 'Routage'),
+        ('security', 'Sécurité / Hardening'),
+        ('test', 'Test de connectivité'),
+        ('doc', 'Documentation'),
+        ('handover', 'Remise client'),
+        ('other', 'Autre'),
     ], string='Catégorie', default='other')
 
     state = fields.Selection([
         ('todo', 'À faire'),
         ('in_progress', 'En cours'),
-        ('done', 'OK ✓'),
-        ('failed', 'Échoué ✗'),
+        ('done', 'OK'),
+        ('failed', 'Échoué'),
         ('na', 'N/A'),
     ], string='Statut', default='todo')
 

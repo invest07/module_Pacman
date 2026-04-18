@@ -20,31 +20,31 @@ class NqmDocument(models.Model):
     # ─── Type de document ──────────────────────────────────────────────────────
     document_type = fields.Selection([
         # Plans & Architecture
-        ('ip_plan', '🌐 Plan d\'adressage IP / VLSM'),
-        ('vlan_plan', '🔀 Plan VLAN & Segmentation'),
-        ('topology', '🗺️ Schéma de topologie réseau'),
-        ('physical_plan', '🔌 Plan de câblage physique'),
+        ('ip_plan', 'Plan d\'adressage IP / VLSM'),
+        ('vlan_plan', 'Plan VLAN & Segmentation'),
+        ('topology', 'Schéma de topologie réseau'),
+        ('physical_plan', 'Plan de câblage physique'),
         # Configuration
-        ('config_router', '⚙️ Configuration routeur'),
-        ('config_switch', '⚙️ Configuration switch'),
-        ('config_firewall', '🔥 Configuration firewall'),
-        ('config_wifi', '📡 Configuration Wi-Fi'),
-        ('config_vpn', '🔐 Configuration VPN'),
-        ('config_other', '⚙️ Autre config équipement'),
+        ('config_router', 'Configuration routeur'),
+        ('config_switch', 'Configuration switch'),
+        ('config_firewall', 'Configuration firewall'),
+        ('config_wifi', 'Configuration Wi-Fi'),
+        ('config_vpn', 'Configuration VPN'),
+        ('config_other', 'Autre config équipement'),
         # Sécurité
-        ('hardening', '🛡️ Guide de durcissement'),
-        ('security_policy', '📜 Politique de sécurité'),
-        ('risk_matrix', '⚠️ Matrice des risques'),
+        ('hardening', 'Guide de durcissement'),
+        ('security_policy', 'Politique de sécurité'),
+        ('risk_matrix', 'Matrice des risques'),
         # Tests & Validation
-        ('test_plan', '🧪 Plan de tests'),
-        ('test_report', '📊 Rapport de tests'),
-        ('validation_form', '✅ Fiche de validation'),
+        ('test_plan', 'Plan de tests'),
+        ('test_report', 'Rapport de tests'),
+        ('validation_form', 'Fiche de validation'),
         # Livraison
-        ('user_guide', '📖 Guide utilisateur / Admin'),
-        ('handover', '🤝 Dossier de remise client (DOE)'),
-        ('maintenance_guide', '🔧 Guide de maintenance'),
+        ('user_guide', 'Guide utilisateur / Admin'),
+        ('handover', 'Dossier de remise client (DOE)'),
+        ('maintenance_guide', 'Guide de maintenance'),
         # Autre
-        ('other', '📄 Autre'),
+        ('other', 'Autre'),
     ], string='Type de document', required=True, default='config_switch', tracking=True)
 
     state = fields.Selection([
