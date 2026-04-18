@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MENU PRINCIPAL
+    ══════════════════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_nqm_root"
+              name="🌐 Réseau &amp; Qualité"
+              sequence="80"
+              web_icon="network_quality_mgmt,static/description/icon.png"/>
+
+    <!-- ─── Tableau de bord ────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_dashboard"
+              name="Tableau de bord"
+              parent="menu_nqm_root"
+              sequence="1"
+              action="action_nqm_project"/>
+
+    <!-- ─── Projets ────────────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_projects"
+              name="📁 Projets"
+              parent="menu_nqm_root"
+              sequence="10"/>
+
+    <menuitem id="menu_nqm_project_all"
+              name="Tous les projets"
+              parent="menu_nqm_projects"
+              sequence="1"
+              action="action_nqm_project"/>
+
+    <!-- ─── Procédures ─────────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_procedures"
+              name="📋 Procédures"
+              parent="menu_nqm_root"
+              sequence="20"/>
+
+    <menuitem id="menu_nqm_procedure_all"
+              name="Toutes les procédures"
+              parent="menu_nqm_procedures"
+              sequence="1"
+              action="action_nqm_procedure"/>
+
+    <menuitem id="menu_nqm_procedure_library"
+              name="📚 Bibliothèque (Templates)"
+              parent="menu_nqm_procedures"
+              sequence="2"
+              action="action_nqm_procedure_library"/>
+
+    <menuitem id="menu_nqm_procedure_category"
+              name="🏷️ Catégories"
+              parent="menu_nqm_procedures"
+              sequence="3"
+              action="action_nqm_procedure_category"/>
+
+    <!-- ─── Checklists ─────────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_checklists"
+              name="✅ Checklists"
+              parent="menu_nqm_root"
+              sequence="30"/>
+
+    <menuitem id="menu_nqm_checklist_all"
+              name="Toutes les checklists"
+              parent="menu_nqm_checklists"
+              sequence="1"
+              action="action_nqm_checklist"/>
+
+    <!-- ─── Documents ──────────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_documents"
+              name="📄 Documents"
+              parent="menu_nqm_root"
+              sequence="40"/>
+
+    <menuitem id="menu_nqm_document_all"
+              name="Tous les documents"
+              parent="menu_nqm_documents"
+              sequence="1"
+              action="action_nqm_document"/>
+
+    <!-- ─── Audits ─────────────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_audits"
+              name="🔒 Audits"
+              parent="menu_nqm_root"
+              sequence="50"/>
+
+    <menuitem id="menu_nqm_audit_all"
+              name="Tous les audits"
+              parent="menu_nqm_audits"
+              sequence="1"
+              action="action_nqm_audit"/>
+
+    <!-- ─── Commissioning ──────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_commissioning"
+              name="🚀 Commissioning"
+              parent="menu_nqm_root"
+              sequence="60"/>
+
+    <menuitem id="menu_nqm_commissioning_all"
+              name="Tous les PV"
+              parent="menu_nqm_commissioning"
+              sequence="1"
+              action="action_nqm_commissioning"/>
+
+    <!-- ─── Configuration ──────────────────────────────────────────────────── -->
+    <menuitem id="menu_nqm_config"
+              name="⚙️ Configuration"
+              parent="menu_nqm_root"
+              sequence="99"/>
+
+    <menuitem id="menu_nqm_config_categories"
+              name="Catégories de procédures"
+              parent="menu_nqm_config"
+              sequence="1"
+              action="action_nqm_procedure_category"/>
+
+</odoo>

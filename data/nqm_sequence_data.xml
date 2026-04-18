@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_nqm_network_project" model="ir.sequence">
+            <field name="name">Projet Réseau NQM</field>
+            <field name="code">nqm.network.project</field>
+            <field name="prefix">NQM-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nqm_procedure" model="ir.sequence">
+            <field name="name">Procédure NQM</field>
+            <field name="code">nqm.procedure</field>
+            <field name="prefix">PROC-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nqm_checklist" model="ir.sequence">
+            <field name="name">Checklist NQM</field>
+            <field name="code">nqm.checklist</field>
+            <field name="prefix">CHK-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nqm_document" model="ir.sequence">
+            <field name="name">Document NQM</field>
+            <field name="code">nqm.document</field>
+            <field name="prefix">DOC-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nqm_audit" model="ir.sequence">
+            <field name="name">Audit NQM</field>
+            <field name="code">nqm.audit</field>
+            <field name="prefix">AUD-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nqm_commissioning" model="ir.sequence">
+            <field name="name">Commissioning NQM</field>
+            <field name="code">nqm.commissioning</field>
+            <field name="prefix">COM-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

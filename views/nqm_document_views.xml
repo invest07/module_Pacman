@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_nqm_document_form" model="ir.ui.view">
+        <field name="name">nqm.document.form</field>
+        <field name="model">nqm.document</field>
+        <field name="arch" type="xml">
+            <form string="Document réseau">
+                <header>
+                    <button name="action_submit_review" string="Soumettre pour révision" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_approve" string="✅ Approuver" type="object"
+                            class="btn-success" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                    <button name="action_new_version" string="📋 Nouvelle version" type="object"
+                            class="btn-info" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                    <button name="action_obsolete" string="Rendre obsolète" type="object"
+                            attrs="{'invisible': [('state', 'in', ['draft', 'obsolete'])]}"/>
+                    <button name="action_reset_draft" string="Remettre en brouillon" type="object"
+                            attrs="{'invisible': [('state', 'not in', ['review'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-paperclip" type="object" name="action_get_attachment_tree_view">
+                            <field name="attachment_count" widget="statinfo" string="Fichiers"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Titre du document..."/></h1>
+                        <div>
+                            <field name="ref" readonly="1" class="oe_tag"/>
+                            <field name="version" class="oe_tag"/>
+                            <field name="confidentiality" widget="badge"
+                                   decoration-danger="confidentiality == 'secret'"
+                                   decoration-warning="confidentiality == 'confidential'"
+                                   decoration-info="confidentiality == 'internal'"
+                                   decoration-success="confidentiality == 'public'"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="document_type"/>
+                            <field name="equipment_id" domain="[('project_id', '=', project_id)]"/>
+                        </group>
+                        <group>
+                            <field name="author_id"/>
+                            <field name="reviewer_id"/>
+                            <field name="revision_date"/>
+                            <field name="date_approved" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                        </group>
+                    </group>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+
+                    <notebook>
+                        <page string="📄 Contenu" name="content">
+                            <field name="description" placeholder="Résumé du document..."/>
+                            <separator string="Contenu principal"/>
+                            <field name="content" placeholder="Corps du document..."/>
+                        </page>
+                        <page string="💻 Config CLI" name="raw_config">
+                            <field name="raw_config" widget="text"
+                                   placeholder="! Coller ici la configuration CLI complète&#10;! Ex: show running-config output, config Cisco IOS, etc."/>
+                        </page>
+                        <page string="📎 Fichiers joints" name="attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nqm_document_list" model="ir.ui.view">
+        <field name="name">nqm.document.list</field>
+        <field name="model">nqm.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documents" decoration-success="state == 'approved'"
+                  decoration-warning="state == 'review'" decoration-muted="state == 'obsolete'">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="document_type"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="version"/>
+                <field name="author_id" widget="many2one_avatar_user"/>
+                <field name="revision_date"/>
+                <field name="confidentiality"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-warning="state == 'review'"
+                       decoration-muted="state in ('draft', 'obsolete')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nqm_document_search" model="ir.ui.view">
+        <field name="name">nqm.document.search</field>
+        <field name="model">nqm.document</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un document">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="document_type"/>
+                <separator/>
+                <filter string="Approuvés" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="En révision" name="review" domain="[('state', '=', 'review')]"/>
+                <filter string="Confidentiels" name="conf"
+                        domain="[('confidentiality', 'in', ['confidential', 'secret'])]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Projet" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'document_type'}"/>
+                    <filter string="Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nqm_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">nqm.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_nqm_document_search"/>
+    </record>
+
+</odoo>

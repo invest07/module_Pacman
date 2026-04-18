@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_nqm_audit_form" model="ir.ui.view">
+        <field name="name">nqm.audit.form</field>
+        <field name="model">nqm.audit</field>
+        <field name="arch" type="xml">
+            <form string="Audit réseau / Cybersécurité">
+                <header>
+                    <button name="action_start" string="▶ Démarrer l'audit" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'planned')]}"/>
+                    <button name="action_review" string="→ En révision" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                    <button name="action_complete" string="✅ Finaliser le rapport" type="object"
+                            class="btn-success" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            attrs="{'invisible': [('state', 'in', ['completed', 'cancelled'])]}"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="planned,in_progress,review,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Titre de l'audit..."/></h1>
+                        <field name="ref" readonly="1" class="oe_tag"/>
+                    </div>
+
+                    <!-- Tableau de bord score -->
+                    <div class="o_kanban_color_0 p-3 rounded mb-3"
+                         style="background: #f8f9fa; border-left: 4px solid #dee2e6;">
+                        <div class="row text-center">
+                            <div class="col-2">
+                                <div class="h2 text-danger"><field name="finding_critical"/></div>
+                                <small>🚨 Critiques</small>
+                            </div>
+                            <div class="col-2">
+                                <div class="h2 text-danger"><field name="finding_high"/></div>
+                                <small>🔴 Élevés</small>
+                            </div>
+                            <div class="col-2">
+                                <div class="h2 text-warning"><field name="finding_medium"/></div>
+                                <small>🟠 Moyens</small>
+                            </div>
+                            <div class="col-2">
+                                <div class="h2 text-info"><field name="finding_low"/></div>
+                                <small>🟡 Faibles</small>
+                            </div>
+                            <div class="col-2">
+                                <div class="h2 text-success"><field name="finding_closed"/></div>
+                                <small>✅ Résolus</small>
+                            </div>
+                            <div class="col-2">
+                                <div class="h2"><field name="score"/> <small>/100</small></div>
+                                <small><field name="score_label"/></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group string="Informations générales">
+                            <field name="project_id"/>
+                            <field name="audit_type"/>
+                            <field name="date_audit"/>
+                            <field name="auditor_id"/>
+                            <field name="reviewer_id"/>
+                        </group>
+                        <group string="Résultats">
+                            <field name="finding_total"/>
+                            <field name="finding_critical"/>
+                            <field name="finding_high"/>
+                            <field name="finding_medium"/>
+                            <field name="finding_low"/>
+                            <field name="finding_info"/>
+                            <field name="finding_closed"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="🔍 Périmètre &amp; Méthode" name="scope">
+                            <separator string="Périmètre audité"/>
+                            <field name="scope" placeholder="Équipements, services, VLANs dans le scope..."/>
+                            <separator string="Méthodologie"/>
+                            <field name="methodology" placeholder="Outils : Nmap, Wireshark, Nessus, OpenVAS, manuel..."/>
+                        </page>
+
+                        <page string="📊 Constats" name="findings">
+                            <field name="finding_ids">
+                                <tree editable="bottom"
+                                      decoration-danger="severity in ('critical', 'high')"
+                                      decoration-warning="severity == 'medium'"
+                                      decoration-success="state == 'closed'">
+                                    <field name="name"/>
+                                    <field name="severity" widget="badge"
+                                           decoration-danger="severity in ('critical', 'high')"
+                                           decoration-warning="severity == 'medium'"
+                                           decoration-info="severity == 'low'"
+                                           decoration-muted="severity == 'info'"/>
+                                    <field name="category"/>
+                                    <field name="assigned_to" widget="many2one_avatar_user"/>
+                                    <field name="date_remediation"/>
+                                    <field name="cve_ref" optional="show"/>
+                                    <field name="mitre_ref" optional="show"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'closed'"
+                                           decoration-info="state == 'in_remediation'"
+                                           decoration-danger="state == 'open'"
+                                           decoration-muted="state == 'accepted'"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="severity"/>
+                                            <field name="category"/>
+                                            <field name="state"/>
+                                        </group>
+                                        <group>
+                                            <field name="assigned_to"/>
+                                            <field name="date_remediation"/>
+                                            <field name="date_closed"/>
+                                            <field name="cve_ref"/>
+                                            <field name="mitre_ref"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Description">
+                                            <field name="description" placeholder="Qu'a-t-on observé ?"/>
+                                        </page>
+                                        <page string="Preuve">
+                                            <field name="evidence" widget="text"
+                                                   placeholder="Commandes, outputs CLI, captures d'écran décrites..."/>
+                                        </page>
+                                        <page string="Impact">
+                                            <field name="impact" placeholder="Conséquences potentielles..."/>
+                                        </page>
+                                        <page string="Recommandation">
+                                            <field name="recommendation" placeholder="Comment corriger ?"/>
+                                            <field name="remediation_notes" widget="text"
+                                                   placeholder="Notes de suivi de la correction..."/>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="📝 Rapport" name="report">
+                            <separator string="Résumé exécutif (pour le management)"/>
+                            <field name="executive_summary"
+                                   placeholder="Synthèse en langage clair, sans jargon technique..."/>
+                            <separator string="Résumé technique (pour les équipes)"/>
+                            <field name="technical_summary"
+                                   placeholder="Synthèse détaillée pour les équipes IT..."/>
+                            <separator string="Recommandations globales"/>
+                            <field name="recommendations"
+                                   placeholder="Plan d'action global priorisé..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nqm_audit_list" model="ir.ui.view">
+        <field name="name">nqm.audit.list</field>
+        <field name="model">nqm.audit</field>
+        <field name="arch" type="xml">
+            <tree string="Audits" decoration-success="state == 'completed'"
+                  decoration-info="state == 'in_progress'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="audit_type"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="date_audit"/>
+                <field name="auditor_id" widget="many2one_avatar_user"/>
+                <field name="finding_critical"/>
+                <field name="finding_high"/>
+                <field name="finding_medium"/>
+                <field name="finding_closed"/>
+                <field name="score"/>
+                <field name="score_label"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'completed'"
+                       decoration-info="state == 'in_progress'"
+                       decoration-warning="state == 'review'"
+                       decoration-muted="state in ('planned', 'cancelled')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nqm_audit_search" model="ir.ui.view">
+        <field name="name">nqm.audit.search</field>
+        <field name="model">nqm.audit</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un audit">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="audit_type"/>
+                <separator/>
+                <filter string="En cours" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminés" name="completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="Constats critiques" name="critical"
+                        domain="[('finding_critical', '>', 0)]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Projet" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'audit_type'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nqm_audit" model="ir.actions.act_window">
+        <field name="name">Audits</field>
+        <field name="res_model">nqm.audit</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_nqm_audit_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Planifiez votre premier audit réseau ou cybersécurité !
+            </p>
+        </field>
+    </record>
+
+</odoo>

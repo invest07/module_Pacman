@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="proc_cat_install" model="nqm.procedure.category">
+            <field name="name">Installation &amp; Câblage</field>
+            <field name="code">INSTALL</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="proc_cat_config" model="nqm.procedure.category">
+            <field name="name">Configuration équipements</field>
+            <field name="code">CONFIG</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="proc_cat_vlan" model="nqm.procedure.category">
+            <field name="name">VLAN &amp; Segmentation</field>
+            <field name="code">VLAN</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="proc_cat_routing" model="nqm.procedure.category">
+            <field name="name">Routage &amp; Interconnexion</field>
+            <field name="code">ROUTING</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="proc_cat_security" model="nqm.procedure.category">
+            <field name="name">Durcissement &amp; Sécurité</field>
+            <field name="code">SECURITY</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="proc_cat_firewall" model="nqm.procedure.category">
+            <field name="name">Firewall &amp; ACL</field>
+            <field name="code">FIREWALL</field>
+            <field name="color">6</field>
+        </record>
+
+        <record id="proc_cat_backup" model="nqm.procedure.category">
+            <field name="name">Sauvegarde &amp; Restauration</field>
+            <field name="code">BACKUP</field>
+            <field name="color">7</field>
+        </record>
+
+        <record id="proc_cat_monitoring" model="nqm.procedure.category">
+            <field name="name">Supervision &amp; Monitoring</field>
+            <field name="code">MONITOR</field>
+            <field name="color">8</field>
+        </record>
+
+        <record id="proc_cat_incident" model="nqm.procedure.category">
+            <field name="name">Réponse à incident</field>
+            <field name="code">INCIDENT</field>
+            <field name="color">9</field>
+        </record>
+
+        <record id="proc_cat_wifi" model="nqm.procedure.category">
+            <field name="name">Wi-Fi &amp; Accès sans fil</field>
+            <field name="code">WIFI</field>
+            <field name="color">10</field>
+        </record>
+
+        <record id="proc_cat_vpn" model="nqm.procedure.category">
+            <field name="name">VPN &amp; Tunnels chiffrés</field>
+            <field name="code">VPN</field>
+            <field name="color">11</field>
+        </record>
+
+    </data>
+</odoo>

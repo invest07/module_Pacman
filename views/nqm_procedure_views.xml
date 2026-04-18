@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_nqm_procedure_form" model="ir.ui.view">
+        <field name="name">nqm.procedure.form</field>
+        <field name="model">nqm.procedure</field>
+        <field name="arch" type="xml">
+            <form string="Procédure technique">
+                <header>
+                    <button name="action_submit_review" string="Soumettre pour révision" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_approve" string="✅ Approuver" type="object"
+                            class="btn-success" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                    <button name="action_obsolete" string="Marquer obsolète" type="object"
+                            attrs="{'invisible': [('state', 'in', ['draft', 'obsolete'])]}"/>
+                    <button name="action_reset_draft" string="Remettre en brouillon" type="object"
+                            attrs="{'invisible': [('state', 'not in', ['review'])]}"/>
+                    <button name="action_copy_to_project" string="📋 Copier vers projet" type="object"
+                            class="btn-info" attrs="{'invisible': [('is_template', '=', False)]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Titre de la procédure..."/></h1>
+                        <div>
+                            <field name="ref" readonly="1" class="oe_tag"/>
+                            <field name="version" class="oe_tag"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="procedure_type"/>
+                            <field name="skill_level"/>
+                            <field name="estimated_duration"/>
+                        </group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="is_template"/>
+                            <field name="author_id"/>
+                            <field name="reviewer_id"/>
+                            <field name="revision_date"/>
+                        </group>
+                    </group>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+
+                    <notebook>
+                        <page string="📋 Objectif &amp; Prérequis" name="overview">
+                            <group>
+                                <field name="objective" placeholder="En une phrase : but de cette procédure..."/>
+                            </group>
+                            <separator string="Prérequis"/>
+                            <field name="prerequisites" placeholder="Matériel, accès, droits nécessaires..."/>
+                        </page>
+                        <page string="🔢 Étapes" name="steps">
+                            <field name="steps" placeholder="Détaillez les étapes numérotées..."/>
+                        </page>
+                        <page string="💻 Commandes CLI" name="commands">
+                            <field name="commands" widget="text"
+                                   placeholder="! Exemple Cisco IOS&#10;enable&#10;configure terminal&#10;vlan 10&#10; name Management&#10;exit"/>
+                        </page>
+                        <page string="✅ Validation" name="validation">
+                            <separator string="Résultat attendu"/>
+                            <field name="expected_result" placeholder="Comment vérifier que c'est OK ?"/>
+                            <separator string="Risques &amp; Points d'attention"/>
+                            <field name="risks" placeholder="Ce qui peut mal tourner..."/>
+                            <separator string="Procédure de rollback"/>
+                            <field name="rollback" placeholder="Comment revenir en arrière ?"/>
+                        </page>
+                        <page string="📚 Références" name="references">
+                            <field name="references" widget="text"
+                                   placeholder="Liens Cisco docs, RFC, CVE, MITRE ATT&amp;CK..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nqm_procedure_list" model="ir.ui.view">
+        <field name="name">nqm.procedure.list</field>
+        <field name="model">nqm.procedure</field>
+        <field name="arch" type="xml">
+            <tree string="Procédures" decoration-success="state == 'approved'"
+                  decoration-warning="state == 'review'" decoration-muted="state == 'obsolete'">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="procedure_type"/>
+                <field name="project_id"/>
+                <field name="skill_level"/>
+                <field name="estimated_duration"/>
+                <field name="is_template" widget="boolean_toggle"/>
+                <field name="version"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-warning="state == 'review'"
+                       decoration-muted="state in ('draft', 'obsolete')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nqm_procedure_search" model="ir.ui.view">
+        <field name="name">nqm.procedure.search</field>
+        <field name="model">nqm.procedure</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher une procédure">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter string="Templates bibliothèque" name="templates" domain="[('is_template', '=', True)]"/>
+                <filter string="Approuvées" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="En révision" name="review" domain="[('state', '=', 'review')]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Catégorie" name="group_cat" context="{'group_by': 'category_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'procedure_type'}"/>
+                    <filter string="Projet" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nqm_procedure" model="ir.actions.act_window">
+        <field name="name">Procédures</field>
+        <field name="res_model">nqm.procedure</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_nqm_procedure_search"/>
+    </record>
+
+    <record id="action_nqm_procedure_library" model="ir.actions.act_window">
+        <field name="name">Bibliothèque de procédures</field>
+        <field name="res_model">nqm.procedure</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_template', '=', True)]</field>
+        <field name="context">{'default_is_template': True}</field>
+        <field name="search_view_id" ref="view_nqm_procedure_search"/>
+    </record>
+
+    <!-- Catégories -->
+    <record id="action_nqm_procedure_category" model="ir.actions.act_window">
+        <field name="name">Catégories de procédures</field>
+        <field name="res_model">nqm.procedure.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

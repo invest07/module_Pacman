@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_nqm_commissioning_form" model="ir.ui.view">
+        <field name="name">nqm.commissioning.form</field>
+        <field name="model">nqm.commissioning</field>
+        <field name="arch" type="xml">
+            <form string="Commissioning / PV de mise en service">
+                <header>
+                    <button name="action_schedule" string="📅 Planifier" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_start" string="▶ Démarrer" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'scheduled')]}"/>
+                    <button name="action_pending_signature" string="✍️ En attente de signature" type="object"
+                            class="btn-warning" attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                    <button name="action_sign" string="✅ Signer &amp; Valider le PV" type="object"
+                            class="btn-success" attrs="{'invisible': [('state', '!=', 'pending_signature')]}"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            attrs="{'invisible': [('state', 'in', ['signed', 'cancelled'])]}"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,scheduled,in_progress,pending_signature,signed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Ex: Mise en service VLAN - Site principal..."/></h1>
+                        <div>
+                            <field name="ref" readonly="1" class="oe_tag"/>
+                        </div>
+                    </div>
+
+                    <!-- Barre de résultats tests -->
+                    <div class="p-3 rounded mb-3" style="background: #f8f9fa; border-left: 4px solid #28a745;">
+                        <div class="row text-center">
+                            <div class="col-3">
+                                <div class="h3"><field name="test_total"/></div>
+                                <small>Tests total</small>
+                            </div>
+                            <div class="col-3">
+                                <div class="h3 text-success"><field name="test_passed"/></div>
+                                <small>✅ Réussis</small>
+                            </div>
+                            <div class="col-3">
+                                <div class="h3 text-danger"><field name="test_failed"/></div>
+                                <small>❌ Échoués</small>
+                            </div>
+                            <div class="col-3">
+                                <div class="h3"><field name="test_rate"/> <small>%</small></div>
+                                <small>Taux de réussite</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group string="Informations générales">
+                            <field name="project_id"/>
+                            <field name="commissioning_type"/>
+                            <field name="date_commissioning" widget="datetime"/>
+                            <field name="date_signed" attrs="{'invisible': [('state', '!=', 'signed')]}"/>
+                        </group>
+                        <group string="Participants">
+                            <field name="technician_id"/>
+                            <field name="client_contact"/>
+                            <field name="witnesses"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="📋 Périmètre" name="scope">
+                            <separator string="Périmètre de la mise en service"/>
+                            <field name="scope_description"
+                                   placeholder="Équipements, VLANs, services mis en service..."/>
+                            <separator string="Conditions préalables vérifiées"/>
+                            <field name="pre_conditions"
+                                   placeholder="Prérequis validés avant de démarrer..."/>
+                        </page>
+
+                        <page string="🧪 Tests de réception" name="tests">
+                            <field name="test_ids">
+                                <tree editable="bottom"
+                                      decoration-success="result == 'pass'"
+                                      decoration-danger="result == 'fail'"
+                                      decoration-muted="result == 'na'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="test_category"/>
+                                    <field name="name"/>
+                                    <field name="is_critical"/>
+                                    <field name="expected_result" optional="show"/>
+                                    <field name="actual_result" optional="show"/>
+                                    <field name="tester_id" widget="many2one_avatar_user"/>
+                                    <field name="test_date" optional="show"/>
+                                    <field name="result" widget="badge"
+                                           decoration-success="result == 'pass'"
+                                           decoration-danger="result == 'fail'"
+                                           decoration-muted="result in ('na', 'pending')"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="test_category"/>
+                                        <field name="is_critical"/>
+                                        <field name="result"/>
+                                        <field name="tester_id"/>
+                                        <field name="test_date"/>
+                                    </group>
+                                    <separator string="Procédure de test"/>
+                                    <field name="description"
+                                           placeholder="Comment exécuter ce test ?"/>
+                                    <group>
+                                        <field name="expected_result"
+                                               placeholder="Résultat attendu..."/>
+                                        <field name="actual_result"
+                                               placeholder="Ce qui a été observé..."/>
+                                    </group>
+                                    <field name="notes" placeholder="Remarques supplémentaires..."/>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="📊 Résultat &amp; Réserves" name="result">
+                            <group>
+                                <field name="overall_result" widget="radio"/>
+                            </group>
+                            <separator string="Réserves / Non-conformités"/>
+                            <field name="reserves"
+                                   placeholder="Points à corriger après la mise en service..."/>
+                            <separator string="Observations générales"/>
+                            <field name="observations"
+                                   placeholder="Remarques libres sur le déroulement..."/>
+                            <separator string="Actions correctives planifiées"/>
+                            <field name="corrective_actions"
+                                   placeholder="Qui fait quoi et pour quand ?"/>
+                        </page>
+
+                        <page string="📎 Documents liés" name="documents">
+                            <separator string="Checklists associées"/>
+                            <field name="checklist_ids"
+                                   domain="[('project_id', '=', project_id)]"
+                                   widget="many2many_tags"/>
+                            <separator string="Documents remis au client"/>
+                            <field name="document_ids"
+                                   domain="[('project_id', '=', project_id)]">
+                                <tree>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="document_type"/>
+                                    <field name="version"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="✍️ Signature PV" name="signature"
+                              attrs="{'invisible': [('state', 'not in', ['pending_signature', 'signed'])]}">
+                            <group>
+                                <field name="signature_place"/>
+                                <field name="client_approval"/>
+                            </group>
+                            <group>
+                                <group string="Signature technicien">
+                                    <field name="technician_signature" widget="signature"
+                                           string="Signer ici"/>
+                                </group>
+                                <group string="Signature client">
+                                    <field name="client_signature" widget="signature"
+                                           string="Signer ici"/>
+                                </group>
+                            </group>
+                            <field name="notes_signature"
+                                   placeholder="Commentaires lors de la signature..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nqm_commissioning_list" model="ir.ui.view">
+        <field name="name">nqm.commissioning.list</field>
+        <field name="model">nqm.commissioning</field>
+        <field name="arch" type="xml">
+            <tree string="Commissioning" decoration-success="state == 'signed'"
+                  decoration-info="state == 'in_progress'"
+                  decoration-warning="state == 'pending_signature'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="commissioning_type"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="date_commissioning"/>
+                <field name="technician_id" widget="many2one_avatar_user"/>
+                <field name="client_contact"/>
+                <field name="test_passed"/>
+                <field name="test_failed"/>
+                <field name="test_rate"/>
+                <field name="overall_result"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'signed'"
+                       decoration-info="state == 'in_progress'"
+                       decoration-warning="state == 'pending_signature'"
+                       decoration-muted="state in ('draft', 'scheduled', 'cancelled')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nqm_commissioning_search" model="ir.ui.view">
+        <field name="name">nqm.commissioning.search</field>
+        <field name="model">nqm.commissioning</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un commissioning">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter string="En attente signature" name="pending"
+                        domain="[('state', '=', 'pending_signature')]"/>
+                <filter string="Signés" name="signed" domain="[('state', '=', 'signed')]"/>
+                <filter string="Avec réserves" name="reserves"
+                        domain="[('overall_result', '=', 'pass_with_reserves')]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Projet" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'commissioning_type'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Mois" name="group_month"
+                            context="{'group_by': 'date_commissioning:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nqm_commissioning" model="ir.actions.act_window">
+        <field name="name">Commissioning</field>
+        <field name="res_model">nqm.commissioning</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_nqm_commissioning_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier PV de commissioning !
+            </p>
+            <p>
+                Documentez et validez formellement chaque mise en service réseau avec signature client.
+            </p>
+        </field>
+    </record>
+
+</odoo>

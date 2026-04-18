@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PROJET RÉSEAU - Form View
+    ══════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_nqm_project_form" model="ir.ui.view">
+        <field name="name">nqm.network.project.form</field>
+        <field name="model">nqm.network.project</field>
+        <field name="arch" type="xml">
+            <form string="Projet Réseau">
+                <header>
+                    <button name="action_design" string="→ Conception" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_deploy" string="→ Déploiement" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'design')]}"/>
+                    <button name="action_test" string="→ Tests" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'deploy')]}"/>
+                    <button name="action_commissioning" string="→ Commissioning" type="object"
+                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'test')]}"/>
+                    <button name="action_done" string="✅ Livrer" type="object"
+                            class="btn-success" attrs="{'invisible': [('state', '!=', 'commissioning')]}"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            class="btn-secondary" attrs="{'invisible': [('state', 'in', ['done', 'cancelled'])]}"/>
+                    <button name="action_reset_draft" string="Remettre en brouillon" type="object"
+                            attrs="{'invisible': [('state', 'not in', ['cancelled'])]}"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,design,deploy,test,commissioning,done"/>
+                </header>
+
+                <sheet>
+                    <!-- Boutons smart (compteurs) -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_procedures" type="object" class="oe_stat_button" icon="fa-list-ol">
+                            <field name="procedure_count" widget="statinfo" string="Procédures"/>
+                        </button>
+                        <button name="action_view_checklists" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                            <field name="checklist_count" widget="statinfo" string="Checklists"/>
+                        </button>
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file-text">
+                            <field name="document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                        <button name="action_view_audits" type="object" class="oe_stat_button" icon="fa-shield">
+                            <field name="audit_count" widget="statinfo" string="Audits"/>
+                        </button>
+                        <button name="action_view_commissioning" type="object" class="oe_stat_button" icon="fa-flag-checkered">
+                            <field name="commissioning_count" widget="statinfo" string="Commissioning"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Nom du projet réseau..."/></h1>
+                        <div>
+                            <field name="ref" readonly="1" class="oe_tag"/>
+                            <field name="priority" widget="priority"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group string="Informations générales">
+                            <field name="partner_id"/>
+                            <field name="project_type"/>
+                            <field name="user_id"/>
+                            <field name="engineer_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Planification">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="date_delivered" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                            <field name="completion_rate" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="📋 Description" name="description">
+                            <field name="description" placeholder="Description du projet..."/>
+                        </page>
+                        <page string="🗺️ Architecture" name="architecture">
+                            <group>
+                                <field name="scope"/>
+                                <field name="network_topology"/>
+                            </group>
+                            <separator string="Plan d'adressage IP / VLSM"/>
+                            <field name="ip_plan" widget="text"
+                                   placeholder="Ex:&#10;VLAN 10 - Management: 192.168.10.0/28&#10;VLAN 20 - Data: 192.168.20.0/24&#10;VLAN 30 - Guest: 192.168.30.0/25"/>
+                        </page>
+                        <page string="🖥️ Équipements" name="equipment">
+                            <field name="equipment_ids">
+                                <tree editable="bottom">
+                                    <field name="equipment_type"/>
+                                    <field name="name"/>
+                                    <field name="brand"/>
+                                    <field name="model"/>
+                                    <field name="ip_management"/>
+                                    <field name="vlan_management"/>
+                                    <field name="location"/>
+                                    <field name="firmware_version"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_nqm_project_list" model="ir.ui.view">
+        <field name="name">nqm.network.project.list</field>
+        <field name="model">nqm.network.project</field>
+        <field name="arch" type="xml">
+            <tree string="Projets Réseau" decoration-success="state == 'done'"
+                  decoration-info="state in ('design', 'deploy', 'test')"
+                  decoration-warning="state == 'commissioning'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="project_type"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="completion_rate" widget="progressbar"/>
+                <field name="priority" widget="priority"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-primary="state in ('design', 'deploy', 'test', 'commissioning')"
+                       decoration-muted="state in ('draft', 'cancelled')"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_nqm_project_kanban" model="ir.ui.view">
+        <field name="name">nqm.network.project.kanban</field>
+        <field name="model">nqm.network.project</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" group_expand="1">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+                <field name="project_type"/>
+                <field name="completion_rate"/>
+                <field name="user_id"/>
+                <field name="priority"/>
+                <field name="date_end"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <field name="priority" widget="priority"/>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div><field name="partner_id"/></div>
+                                <div class="o_kanban_tags_section mt4">
+                                    <span class="badge badge-pill badge-secondary">
+                                        <field name="project_type"/>
+                                    </span>
+                                </div>
+                                <div class="mt4">
+                                    <field name="completion_rate" widget="progressbar"/>
+                                </div>
+                                <div class="oe_kanban_footer mt4">
+                                    <div class="o_kanban_record_bottom">
+                                        <span class="oe_kanban_bottom_left">
+                                            <field name="date_end"/>
+                                        </span>
+                                        <span class="oe_kanban_bottom_right">
+                                            <field name="user_id" widget="many2one_avatar_user"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_nqm_project_search" model="ir.ui.view">
+        <field name="name">nqm.network.project.search</field>
+        <field name="model">nqm.network.project</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un projet réseau">
+                <field name="name" string="Projet"/>
+                <field name="partner_id" string="Client"/>
+                <field name="ref" string="Référence"/>
+                <field name="user_id" string="Responsable"/>
+                <separator/>
+                <filter string="Mes projets" name="my_projects"
+                        domain="[('user_id', '=', uid)]"/>
+                <filter string="En cours" name="in_progress"
+                        domain="[('state', 'in', ['design', 'deploy', 'test', 'commissioning'])]"/>
+                <filter string="Terminés" name="done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'project_type'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Responsable" name="group_user" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_nqm_project" model="ir.actions.act_window">
+        <field name="name">Projets Réseau</field>
+        <field name="res_model">nqm.network.project</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_nqm_project_search"/>
+        <field name="context">{'search_default_in_progress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier projet réseau !
+            </p>
+            <p>
+                Gérez vos projets d'architecture réseau de la conception à la livraison.
+            </p>
+        </field>
+    </record>
+
+</odoo>
