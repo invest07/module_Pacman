@@ -11,19 +11,19 @@
             <form string="Projet Réseau">
                 <header>
                     <button name="action_design" string="→ Conception" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                            class="btn-primary" invisible="state != 'draft'"/>
                     <button name="action_deploy" string="→ Déploiement" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'design')]}"/>
+                            class="btn-primary" invisible="state != 'design'"/>
                     <button name="action_test" string="→ Tests" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'deploy')]}"/>
+                            class="btn-primary" invisible="state != 'deploy'"/>
                     <button name="action_commissioning" string="→ Commissioning" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'test')]}"/>
+                            class="btn-primary" invisible="state != 'test'"/>
                     <button name="action_done" string="✅ Livrer" type="object"
-                            class="btn-success" attrs="{'invisible': [('state', '!=', 'commissioning')]}"/>
+                            class="btn-success" invisible="state != 'commissioning'"/>
                     <button name="action_cancel" string="Annuler" type="object"
-                            class="btn-secondary" attrs="{'invisible': [('state', 'in', ['done', 'cancelled'])]}"/>
+                            class="btn-secondary" invisible="state in ('done', 'cancelled')"/>
                     <button name="action_reset_draft" string="Remettre en brouillon" type="object"
-                            attrs="{'invisible': [('state', 'not in', ['cancelled'])]}"/>
+                            invisible="state != 'cancelled'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,design,deploy,test,commissioning,done"/>
                 </header>
@@ -67,7 +67,7 @@
                         <group string="Planification">
                             <field name="date_start"/>
                             <field name="date_end"/>
-                            <field name="date_delivered" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                            <field name="date_delivered" invisible="state != 'done'"/>
                             <field name="completion_rate" widget="progressbar"/>
                         </group>
                     </group>
@@ -87,7 +87,7 @@
                         </page>
                         <page string="🖥️ Équipements" name="equipment">
                             <field name="equipment_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="equipment_type"/>
                                     <field name="name"/>
                                     <field name="brand"/>
@@ -96,16 +96,12 @@
                                     <field name="vlan_management"/>
                                     <field name="location"/>
                                     <field name="firmware_version"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -115,7 +111,7 @@
         <field name="name">nqm.network.project.list</field>
         <field name="model">nqm.network.project</field>
         <field name="arch" type="xml">
-            <tree string="Projets Réseau" decoration-success="state == 'done'"
+            <list string="Projets Réseau" decoration-success="state == 'done'"
                   decoration-info="state in ('design', 'deploy', 'test')"
                   decoration-warning="state == 'commissioning'"
                   decoration-muted="state == 'cancelled'">
@@ -132,7 +128,7 @@
                        decoration-success="state == 'done'"
                        decoration-primary="state in ('design', 'deploy', 'test', 'commissioning')"
                        decoration-muted="state in ('draft', 'cancelled')"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -151,31 +147,27 @@
                 <field name="priority"/>
                 <field name="date_end"/>
                 <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click">
-                            <div class="oe_kanban_content">
-                                <div class="o_kanban_record_title">
-                                    <field name="priority" widget="priority"/>
-                                    <strong><field name="name"/></strong>
+                    <t t-name="card" class="flex-row">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_title">
+                                <field name="priority" widget="priority"/>
+                                <strong><field name="name"/></strong>
+                            </div>
+                            <div><field name="partner_id"/></div>
+                            <div class="mt-1">
+                                <span class="badge text-bg-secondary">
+                                    <field name="project_type"/>
+                                </span>
+                            </div>
+                            <div class="mt-1">
+                                <field name="completion_rate" widget="progressbar"/>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-1">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="date_end"/>
                                 </div>
-                                <div><field name="partner_id"/></div>
-                                <div class="o_kanban_tags_section mt4">
-                                    <span class="badge badge-pill badge-secondary">
-                                        <field name="project_type"/>
-                                    </span>
-                                </div>
-                                <div class="mt4">
-                                    <field name="completion_rate" widget="progressbar"/>
-                                </div>
-                                <div class="oe_kanban_footer mt4">
-                                    <div class="o_kanban_record_bottom">
-                                        <span class="oe_kanban_bottom_left">
-                                            <field name="date_end"/>
-                                        </span>
-                                        <span class="oe_kanban_bottom_right">
-                                            <field name="user_id" widget="many2one_avatar_user"/>
-                                        </span>
-                                    </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="user_id" widget="many2one_avatar_user"/>
                                 </div>
                             </div>
                         </div>

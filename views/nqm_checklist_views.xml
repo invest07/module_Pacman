@@ -8,9 +8,9 @@
             <form string="Checklist réseau">
                 <header>
                     <button name="action_mark_done" string="✅ Tout valider" type="object"
-                            class="btn-success" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+                            class="btn-success" invisible="state != 'open'"/>
                     <button name="action_reopen" string="Rouvrir" type="object"
-                            attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                            invisible="state != 'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,done"/>
                 </header>
                 <sheet>
@@ -37,7 +37,7 @@
 
                     <separator string="Points de contrôle"/>
                     <field name="item_ids">
-                        <tree editable="bottom" decoration-success="state == 'done'"
+                        <list editable="bottom" decoration-success="state == 'done'"
                               decoration-danger="state == 'failed'"
                               decoration-muted="state == 'na'">
                             <field name="sequence" widget="handle"/>
@@ -52,7 +52,7 @@
                                    decoration-muted="state == 'na'"/>
                             <field name="done_date"/>
                             <field name="notes" optional="show"/>
-                        </tree>
+                        </list>
                         <form>
                             <group>
                                 <field name="name"/>
@@ -71,11 +71,7 @@
                         </form>
                     </field>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -84,7 +80,7 @@
         <field name="name">nqm.checklist.list</field>
         <field name="model">nqm.checklist</field>
         <field name="arch" type="xml">
-            <tree string="Checklists" decoration-success="state == 'done'"
+            <list string="Checklists" decoration-success="state == 'done'"
                   decoration-muted="state == 'cancelled'">
                 <field name="ref"/>
                 <field name="name"/>
@@ -99,7 +95,7 @@
                        decoration-success="state == 'done'"
                        decoration-info="state == 'open'"
                        decoration-muted="state == 'cancelled'"/>
-            </tree>
+            </list>
         </field>
     </record>
 

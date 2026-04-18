@@ -8,20 +8,21 @@
             <form string="Document réseau">
                 <header>
                     <button name="action_submit_review" string="Soumettre pour révision" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                            class="btn-primary" invisible="state != 'draft'"/>
                     <button name="action_approve" string="✅ Approuver" type="object"
-                            class="btn-success" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                            class="btn-success" invisible="state != 'review'"/>
                     <button name="action_new_version" string="📋 Nouvelle version" type="object"
-                            class="btn-info" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                            class="btn-info" invisible="state != 'approved'"/>
                     <button name="action_obsolete" string="Rendre obsolète" type="object"
-                            attrs="{'invisible': [('state', 'in', ['draft', 'obsolete'])]}"/>
+                            invisible="state in ('draft', 'obsolete')"/>
                     <button name="action_reset_draft" string="Remettre en brouillon" type="object"
-                            attrs="{'invisible': [('state', 'not in', ['review'])]}"/>
+                            invisible="state != 'review'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" icon="fa-paperclip" type="object" name="action_get_attachment_tree_view">
+                        <button class="oe_stat_button" icon="fa-paperclip" type="object"
+                                name="action_get_attachment_tree_view">
                             <field name="attachment_count" widget="statinfo" string="Fichiers"/>
                         </button>
                     </div>
@@ -49,7 +50,7 @@
                             <field name="author_id"/>
                             <field name="reviewer_id"/>
                             <field name="revision_date"/>
-                            <field name="date_approved" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                            <field name="date_approved" invisible="state != 'approved'"/>
                         </group>
                     </group>
                     <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
@@ -69,11 +70,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -82,7 +79,7 @@
         <field name="name">nqm.document.list</field>
         <field name="model">nqm.document</field>
         <field name="arch" type="xml">
-            <tree string="Documents" decoration-success="state == 'approved'"
+            <list string="Documents" decoration-success="state == 'approved'"
                   decoration-warning="state == 'review'" decoration-muted="state == 'obsolete'">
                 <field name="ref"/>
                 <field name="name"/>
@@ -97,7 +94,7 @@
                        decoration-success="state == 'approved'"
                        decoration-warning="state == 'review'"
                        decoration-muted="state in ('draft', 'obsolete')"/>
-            </tree>
+            </list>
         </field>
     </record>
 

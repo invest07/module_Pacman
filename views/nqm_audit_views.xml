@@ -8,13 +8,13 @@
             <form string="Audit réseau / Cybersécurité">
                 <header>
                     <button name="action_start" string="▶ Démarrer l'audit" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'planned')]}"/>
+                            class="btn-primary" invisible="state != 'planned'"/>
                     <button name="action_review" string="→ En révision" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                            class="btn-primary" invisible="state != 'in_progress'"/>
                     <button name="action_complete" string="✅ Finaliser le rapport" type="object"
-                            class="btn-success" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                            class="btn-success" invisible="state != 'review'"/>
                     <button name="action_cancel" string="Annuler" type="object"
-                            attrs="{'invisible': [('state', 'in', ['completed', 'cancelled'])]}"/>
+                            invisible="state in ('completed', 'cancelled')"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="planned,in_progress,review,completed"/>
                 </header>
@@ -26,7 +26,7 @@
                     </div>
 
                     <!-- Tableau de bord score -->
-                    <div class="o_kanban_color_0 p-3 rounded mb-3"
+                    <div class="p-3 rounded mb-3"
                          style="background: #f8f9fa; border-left: 4px solid #dee2e6;">
                         <div class="row text-center">
                             <div class="col-2">
@@ -85,7 +85,7 @@
 
                         <page string="📊 Constats" name="findings">
                             <field name="finding_ids">
-                                <tree editable="bottom"
+                                <list editable="bottom"
                                       decoration-danger="severity in ('critical', 'high')"
                                       decoration-warning="severity == 'medium'"
                                       decoration-success="state == 'closed'">
@@ -105,7 +105,7 @@
                                            decoration-info="state == 'in_remediation'"
                                            decoration-danger="state == 'open'"
                                            decoration-muted="state == 'accepted'"/>
-                                </tree>
+                                </list>
                                 <form>
                                     <group>
                                         <group>
@@ -156,11 +156,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -169,7 +165,7 @@
         <field name="name">nqm.audit.list</field>
         <field name="model">nqm.audit</field>
         <field name="arch" type="xml">
-            <tree string="Audits" decoration-success="state == 'completed'"
+            <list string="Audits" decoration-success="state == 'completed'"
                   decoration-info="state == 'in_progress'"
                   decoration-muted="state == 'cancelled'">
                 <field name="ref"/>
@@ -190,7 +186,7 @@
                        decoration-info="state == 'in_progress'"
                        decoration-warning="state == 'review'"
                        decoration-muted="state in ('planned', 'cancelled')"/>
-            </tree>
+            </list>
         </field>
     </record>
 

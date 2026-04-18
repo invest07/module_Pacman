@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Network Quality Management',
-    'version': '16.0.1.0.0',
+    'version': '17.0.1.0.0',
     'category': 'Technical',
     'summary': 'Gestion complète des projets réseau & cybersécurité : procédures, checklists, audits, commissioning, documents de configuration et validation.',
     'description': """
@@ -26,7 +26,6 @@ Fonctionnalités :
         'base',
         'mail',
         'project',
-        'maintenance',
     ],
     'data': [
         'security/ir.model.access.csv',

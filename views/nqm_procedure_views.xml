@@ -8,15 +8,15 @@
             <form string="Procédure technique">
                 <header>
                     <button name="action_submit_review" string="Soumettre pour révision" type="object"
-                            class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                            class="btn-primary" invisible="state != 'draft'"/>
                     <button name="action_approve" string="✅ Approuver" type="object"
-                            class="btn-success" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                            class="btn-success" invisible="state != 'review'"/>
                     <button name="action_obsolete" string="Marquer obsolète" type="object"
-                            attrs="{'invisible': [('state', 'in', ['draft', 'obsolete'])]}"/>
+                            invisible="state in ('draft', 'obsolete')"/>
                     <button name="action_reset_draft" string="Remettre en brouillon" type="object"
-                            attrs="{'invisible': [('state', 'not in', ['review'])]}"/>
+                            invisible="state != 'review'"/>
                     <button name="action_copy_to_project" string="📋 Copier vers projet" type="object"
-                            class="btn-info" attrs="{'invisible': [('is_template', '=', False)]}"/>
+                            class="btn-info" invisible="not is_template"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
                 </header>
                 <sheet>
@@ -75,11 +75,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -88,7 +84,7 @@
         <field name="name">nqm.procedure.list</field>
         <field name="model">nqm.procedure</field>
         <field name="arch" type="xml">
-            <tree string="Procédures" decoration-success="state == 'approved'"
+            <list string="Procédures" decoration-success="state == 'approved'"
                   decoration-warning="state == 'review'" decoration-muted="state == 'obsolete'">
                 <field name="ref"/>
                 <field name="name"/>
@@ -103,7 +99,7 @@
                        decoration-success="state == 'approved'"
                        decoration-warning="state == 'review'"
                        decoration-muted="state in ('draft', 'obsolete')"/>
-            </tree>
+            </list>
         </field>
     </record>
 
