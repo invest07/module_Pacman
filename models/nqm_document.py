@@ -106,6 +106,7 @@ class NqmDocument(models.Model):
         ('secret', 'Secret'),
     ], string='Confidentialité', default='internal')
 
+    @api.depends('attachment_ids')
     def _compute_attachment_count(self):
         for rec in self:
             rec.attachment_count = len(rec.attachment_ids)

@@ -38,11 +38,11 @@
                             </div>
                             <div class="col-3">
                                 <div class="h3 text-success"><field name="test_passed"/></div>
-                                <small>✅ Réussis</small>
+                                <small>Réussis</small>
                             </div>
                             <div class="col-3">
                                 <div class="h3 text-danger"><field name="test_failed"/></div>
-                                <small>❌ Échoués</small>
+                                <small>Échoués</small>
                             </div>
                             <div class="col-3">
                                 <div class="h3"><field name="test_rate"/> <small>%</small></div>

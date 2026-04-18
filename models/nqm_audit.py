@@ -207,4 +207,7 @@ class NqmAuditFinding(models.Model):
     @api.depends('audit_id.ref')
     def _compute_ref(self):
         for rec in self:
-            rec.ref = f"{rec.audit_id.ref}-F{rec.id:03d}" if rec.audit_id else ''
+            if rec.audit_id and isinstance(rec.id, int):
+                rec.ref = f"{rec.audit_id.ref}-F{rec.id:03d}"
+            else:
+                rec.ref = ''

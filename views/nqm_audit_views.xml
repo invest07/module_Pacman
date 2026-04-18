@@ -31,23 +31,23 @@
                         <div class="row text-center">
                             <div class="col-2">
                                 <div class="h2 text-danger"><field name="finding_critical"/></div>
-                                <small>🚨 Critiques</small>
+                                <small>Critiques</small>
                             </div>
                             <div class="col-2">
                                 <div class="h2 text-danger"><field name="finding_high"/></div>
-                                <small>🔴 Élevés</small>
+                                <small>Élevés</small>
                             </div>
                             <div class="col-2">
                                 <div class="h2 text-warning"><field name="finding_medium"/></div>
-                                <small>🟠 Moyens</small>
+                                <small>Moyens</small>
                             </div>
                             <div class="col-2">
                                 <div class="h2 text-info"><field name="finding_low"/></div>
-                                <small>🟡 Faibles</small>
+                                <small>Faibles</small>
                             </div>
                             <div class="col-2">
                                 <div class="h2 text-success"><field name="finding_closed"/></div>
-                                <small>✅ Résolus</small>
+                                <small>Résolus</small>
                             </div>
                             <div class="col-2">
                                 <div class="h2"><field name="score"/> <small>/100</small></div>

@@ -34,13 +34,13 @@
                         <button name="action_view_procedures" type="object" class="oe_stat_button" icon="fa-list-ol">
                             <field name="procedure_count" widget="statinfo" string="Procédures"/>
                         </button>
-                        <button name="action_view_checklists" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                        <button name="action_view_checklists" type="object" class="oe_stat_button" icon="fa-check-square">
                             <field name="checklist_count" widget="statinfo" string="Checklists"/>
                         </button>
-                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file-text">
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file-alt">
                             <field name="document_count" widget="statinfo" string="Documents"/>
                         </button>
-                        <button name="action_view_audits" type="object" class="oe_stat_button" icon="fa-shield">
+                        <button name="action_view_audits" type="object" class="oe_stat_button" icon="fa-shield-alt">
                             <field name="audit_count" widget="statinfo" string="Audits"/>
                         </button>
                         <button name="action_view_commissioning" type="object" class="oe_stat_button" icon="fa-flag-checkered">
