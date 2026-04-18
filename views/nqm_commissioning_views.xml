@@ -7,13 +7,13 @@
         <field name="arch" type="xml">
             <form string="Commissioning / PV de mise en service">
                 <header>
-                    <button name="action_schedule" string="📅 Planifier" type="object"
+                    <button name="action_schedule" string="Planifier" type="object"
                             class="btn-primary" invisible="state != 'draft'"/>
-                    <button name="action_start" string="▶ Démarrer" type="object"
+                    <button name="action_start" string="Démarrer" type="object"
                             class="btn-primary" invisible="state != 'scheduled'"/>
-                    <button name="action_pending_signature" string="✍️ En attente de signature" type="object"
+                    <button name="action_pending_signature" string="En attente de signature" type="object"
                             class="btn-warning" invisible="state != 'in_progress'"/>
-                    <button name="action_sign" string="✅ Signer &amp; Valider le PV" type="object"
+                    <button name="action_sign" string="Signer et Valider le PV" type="object"
                             class="btn-success" invisible="state != 'pending_signature'"/>
                     <button name="action_cancel" string="Annuler" type="object"
                             invisible="state in ('signed', 'cancelled')"/>
@@ -66,7 +66,7 @@
                     </group>
 
                     <notebook>
-                        <page string="📋 Périmètre" name="scope">
+                        <page string="Périmètre" name="scope">
                             <separator string="Périmètre de la mise en service"/>
                             <field name="scope_description"
                                    placeholder="Équipements, VLANs, services mis en service..."/>
@@ -75,7 +75,7 @@
                                    placeholder="Prérequis validés avant de démarrer..."/>
                         </page>
 
-                        <page string="🧪 Tests de réception" name="tests">
+                        <page string="Tests de réception" name="tests">
                             <field name="test_ids">
                                 <list editable="bottom"
                                       decoration-success="result == 'pass'"
@@ -117,7 +117,7 @@
                             </field>
                         </page>
 
-                        <page string="📊 Résultat &amp; Réserves" name="result">
+                        <page string="Résultat et Réserves" name="result">
                             <group>
                                 <field name="overall_result" widget="radio"/>
                             </group>
@@ -132,7 +132,7 @@
                                    placeholder="Qui fait quoi et pour quand ?"/>
                         </page>
 
-                        <page string="📎 Documents liés" name="documents">
+                        <page string="Documents liés" name="documents">
                             <separator string="Checklists associées"/>
                             <field name="checklist_ids"
                                    domain="[('project_id', '=', project_id)]"
@@ -150,7 +150,7 @@
                             </field>
                         </page>
 
-                        <page string="✍️ Signature PV" name="signature"
+                        <page string="Signature PV" name="signature"
                               invisible="state not in ('pending_signature', 'signed')">
                             <group>
                                 <field name="signature_place"/>

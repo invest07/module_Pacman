@@ -10,15 +10,15 @@
         <field name="arch" type="xml">
             <form string="Projet Réseau">
                 <header>
-                    <button name="action_design" string="→ Conception" type="object"
+                    <button name="action_design" string="Conception" type="object"
                             class="btn-primary" invisible="state != 'draft'"/>
-                    <button name="action_deploy" string="→ Déploiement" type="object"
+                    <button name="action_deploy" string="Déploiement" type="object"
                             class="btn-primary" invisible="state != 'design'"/>
-                    <button name="action_test" string="→ Tests" type="object"
+                    <button name="action_test" string="Tests" type="object"
                             class="btn-primary" invisible="state != 'deploy'"/>
-                    <button name="action_commissioning" string="→ Commissioning" type="object"
+                    <button name="action_commissioning" string="Commissioning" type="object"
                             class="btn-primary" invisible="state != 'test'"/>
-                    <button name="action_done" string="✅ Livrer" type="object"
+                    <button name="action_done" string="Livrer" type="object"
                             class="btn-success" invisible="state != 'commissioning'"/>
                     <button name="action_cancel" string="Annuler" type="object"
                             class="btn-secondary" invisible="state in ('done', 'cancelled')"/>
@@ -73,10 +73,10 @@
                     </group>
 
                     <notebook>
-                        <page string="📋 Description" name="description">
+                        <page string="Description" name="description">
                             <field name="description" placeholder="Description du projet..."/>
                         </page>
-                        <page string="🗺️ Architecture" name="architecture">
+                        <page string="Architecture" name="architecture">
                             <group>
                                 <field name="scope"/>
                                 <field name="network_topology"/>
@@ -85,7 +85,7 @@
                             <field name="ip_plan" widget="text"
                                    placeholder="Ex:&#10;VLAN 10 - Management: 192.168.10.0/28&#10;VLAN 20 - Data: 192.168.20.0/24&#10;VLAN 30 - Guest: 192.168.30.0/25"/>
                         </page>
-                        <page string="🖥️ Équipements" name="equipment">
+                        <page string="Équipements" name="equipment">
                             <field name="equipment_ids">
                                 <list editable="bottom">
                                     <field name="equipment_type"/>

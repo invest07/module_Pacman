@@ -7,11 +7,11 @@
         <field name="arch" type="xml">
             <form string="Audit réseau / Cybersécurité">
                 <header>
-                    <button name="action_start" string="▶ Démarrer l'audit" type="object"
+                    <button name="action_start" string="Démarrer l'audit" type="object"
                             class="btn-primary" invisible="state != 'planned'"/>
-                    <button name="action_review" string="→ En révision" type="object"
+                    <button name="action_review" string="En révision" type="object"
                             class="btn-primary" invisible="state != 'in_progress'"/>
-                    <button name="action_complete" string="✅ Finaliser le rapport" type="object"
+                    <button name="action_complete" string="Finaliser le rapport" type="object"
                             class="btn-success" invisible="state != 'review'"/>
                     <button name="action_cancel" string="Annuler" type="object"
                             invisible="state in ('completed', 'cancelled')"/>
@@ -76,14 +76,14 @@
                     </group>
 
                     <notebook>
-                        <page string="🔍 Périmètre &amp; Méthode" name="scope">
+                        <page string="Périmètre et Méthode" name="scope">
                             <separator string="Périmètre audité"/>
                             <field name="scope" placeholder="Équipements, services, VLANs dans le scope..."/>
                             <separator string="Méthodologie"/>
                             <field name="methodology" placeholder="Outils : Nmap, Wireshark, Nessus, OpenVAS, manuel..."/>
                         </page>
 
-                        <page string="📊 Constats" name="findings">
+                        <page string="Constats" name="findings">
                             <field name="finding_ids">
                                 <list editable="bottom"
                                       decoration-danger="severity in ('critical', 'high')"
@@ -143,7 +143,7 @@
                             </field>
                         </page>
 
-                        <page string="📝 Rapport" name="report">
+                        <page string="Rapport" name="report">
                             <separator string="Résumé exécutif (pour le management)"/>
                             <field name="executive_summary"
                                    placeholder="Synthèse en langage clair, sans jargon technique..."/>

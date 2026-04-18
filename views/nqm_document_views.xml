@@ -9,9 +9,9 @@
                 <header>
                     <button name="action_submit_review" string="Soumettre pour révision" type="object"
                             class="btn-primary" invisible="state != 'draft'"/>
-                    <button name="action_approve" string="✅ Approuver" type="object"
+                    <button name="action_approve" string="Approuver" type="object"
                             class="btn-success" invisible="state != 'review'"/>
-                    <button name="action_new_version" string="📋 Nouvelle version" type="object"
+                    <button name="action_new_version" string="Nouvelle version" type="object"
                             class="btn-info" invisible="state != 'approved'"/>
                     <button name="action_obsolete" string="Rendre obsolète" type="object"
                             invisible="state in ('draft', 'obsolete')"/>
@@ -50,16 +50,16 @@
                     <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
 
                     <notebook>
-                        <page string="📄 Contenu" name="content">
+                        <page string="Contenu" name="content">
                             <field name="description" placeholder="Résumé du document..."/>
                             <separator string="Contenu principal"/>
                             <field name="content" placeholder="Corps du document..."/>
                         </page>
-                        <page string="💻 Config CLI" name="raw_config">
+                        <page string="Config CLI" name="raw_config">
                             <field name="raw_config" widget="text"
                                    placeholder="! Coller ici la configuration CLI complète&#10;! Ex: show running-config output, config Cisco IOS, etc."/>
                         </page>
-                        <page string="📎 Fichiers joints" name="attachments">
+                        <page string="Fichiers joints" name="attachments">
                             <field name="attachment_ids" widget="many2many_binary"/>
                         </page>
                     </notebook>

@@ -110,10 +110,10 @@ class NqmNetworkProject(models.Model):
     )
 
     # ─── Compteurs (pour les boutons smart) ────────────────────────────────────
-    procedure_count = fields.Integer(compute='_compute_counts', string='Procédures')
-    checklist_count = fields.Integer(compute='_compute_counts', string='Checklists')
-    document_count = fields.Integer(compute='_compute_counts', string='Documents')
-    audit_count = fields.Integer(compute='_compute_counts', string='Audits')
+    procedure_count = fields.Integer(compute='_compute_counts', string='Nb Procédures')
+    checklist_count = fields.Integer(compute='_compute_counts', string='Nb Checklists')
+    document_count = fields.Integer(compute='_compute_counts', string='Nb Documents')
+    audit_count = fields.Integer(compute='_compute_counts', string='Nb Audits')
     commissioning_count = fields.Integer(compute='_compute_counts', string='Nb Commissioning')
 
     # ─── Taux de complétion global ─────────────────────────────────────────────

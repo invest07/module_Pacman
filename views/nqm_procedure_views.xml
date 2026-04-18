@@ -9,13 +9,13 @@
                 <header>
                     <button name="action_submit_review" string="Soumettre pour révision" type="object"
                             class="btn-primary" invisible="state != 'draft'"/>
-                    <button name="action_approve" string="✅ Approuver" type="object"
+                    <button name="action_approve" string="Approuver" type="object"
                             class="btn-success" invisible="state != 'review'"/>
                     <button name="action_obsolete" string="Marquer obsolète" type="object"
                             invisible="state in ('draft', 'obsolete')"/>
                     <button name="action_reset_draft" string="Remettre en brouillon" type="object"
                             invisible="state != 'review'"/>
-                    <button name="action_copy_to_project" string="📋 Copier vers projet" type="object"
+                    <button name="action_copy_to_project" string="Copier vers projet" type="object"
                             class="btn-info" invisible="not is_template"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
                 </header>
@@ -47,21 +47,21 @@
                     <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
 
                     <notebook>
-                        <page string="📋 Objectif &amp; Prérequis" name="overview">
+                        <page string="Objectif et Prérequis" name="overview">
                             <group>
                                 <field name="objective" placeholder="En une phrase : but de cette procédure..."/>
                             </group>
                             <separator string="Prérequis"/>
                             <field name="prerequisites" placeholder="Matériel, accès, droits nécessaires..."/>
                         </page>
-                        <page string="🔢 Étapes" name="steps">
+                        <page string="Étapes" name="steps">
                             <field name="steps" placeholder="Détaillez les étapes numérotées..."/>
                         </page>
-                        <page string="💻 Commandes CLI" name="commands">
+                        <page string="Commandes CLI" name="commands">
                             <field name="commands" widget="text"
                                    placeholder="! Exemple Cisco IOS&#10;enable&#10;configure terminal&#10;vlan 10&#10; name Management&#10;exit"/>
                         </page>
-                        <page string="✅ Validation" name="validation">
+                        <page string="Validation" name="validation">
                             <separator string="Résultat attendu"/>
                             <field name="expected_result" placeholder="Comment vérifier que c'est OK ?"/>
                             <separator string="Risques &amp; Points d'attention"/>
@@ -69,7 +69,7 @@
                             <separator string="Procédure de rollback"/>
                             <field name="rollback" placeholder="Comment revenir en arrière ?"/>
                         </page>
-                        <page string="📚 Références" name="references">
+                        <page string="Références" name="references">
                             <field name="references" widget="text"
                                    placeholder="Liens Cisco docs, RFC, CVE, MITRE ATT&amp;CK..."/>
                         </page>

@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <form string="Checklist réseau">
                 <header>
-                    <button name="action_mark_done" string="✅ Tout valider" type="object"
+                    <button name="action_mark_done" string="Tout valider" type="object"
                             class="btn-success" invisible="state != 'open'"/>
                     <button name="action_reopen" string="Rouvrir" type="object"
                             invisible="state != 'done'"/>
