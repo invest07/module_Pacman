@@ -204,7 +204,7 @@ class NqmAuditFinding(models.Model):
     cve_ref = fields.Char(string='Référence CVE', help='Ex: CVE-2023-12345')
     mitre_ref = fields.Char(string='MITRE ATT&CK', help='Ex: T1078 - Valid Accounts')
 
-    @api.depends('audit_id.ref', 'id')
+    @api.depends('audit_id.ref')
     def _compute_ref(self):
         for rec in self:
             rec.ref = f"{rec.audit_id.ref}-F{rec.id:03d}" if rec.audit_id else ''

@@ -114,7 +114,7 @@ class NqmNetworkProject(models.Model):
     checklist_count = fields.Integer(compute='_compute_counts', string='Checklists')
     document_count = fields.Integer(compute='_compute_counts', string='Documents')
     audit_count = fields.Integer(compute='_compute_counts', string='Audits')
-    commissioning_count = fields.Integer(compute='_compute_counts', string='Commissioning')
+    commissioning_count = fields.Integer(compute='_compute_counts', string='Nb Commissioning')
 
     # ─── Taux de complétion global ─────────────────────────────────────────────
     completion_rate = fields.Float(

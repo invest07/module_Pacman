@@ -131,16 +131,6 @@ class NqmDocument(models.Model):
     def action_reset_draft(self):
         self.state = 'draft'
 
-    def action_get_attachment_tree_view(self):
-        return {
-            'name': 'Fichiers joints',
-            'type': 'ir.actions.act_window',
-            'res_model': 'ir.attachment',
-            'view_mode': 'list,form',
-            'domain': [('id', 'in', self.attachment_ids.ids)],
-            'context': {'default_res_model': self._name, 'default_res_id': self.id},
-        }
-
     def action_new_version(self):
         """Crée une nouvelle version du document."""
         try:

@@ -20,12 +20,6 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" icon="fa-paperclip" type="object"
-                                name="action_get_attachment_tree_view">
-                            <field name="attachment_count" widget="statinfo" string="Fichiers"/>
-                        </button>
-                    </div>
                     <div class="oe_title">
                         <label for="name"/>
                         <h1><field name="name" placeholder="Titre du document..."/></h1>
